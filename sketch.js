@@ -8,6 +8,10 @@ let score = 0;
 var bgImage;
 var granny;
 
+let wordToClick = "score";
+let timerInterval;
+let timeLeft = 20; 
+
 
 function preload() {
   {
@@ -26,6 +30,7 @@ function setup() {
   textLeading(40); //text spacing, do not touch cause you'll mess it up lol
   noStroke();//gets rid of outline
   fill(33);//fill of box
+  startTimer();
 }
 
 function draw() {//these are all the pages that switch throughout
@@ -79,8 +84,8 @@ function draw() {//these are all the pages that switch throughout
       customButton(width / 2, height * 0.8, 80, 40, 6)
       break;
     case 6://page6
-      fadeTextIntoView("\"She's been rather, ahem, 'difficult' to collect from.", width / 2, height / 2.4);
-      fadeTextIntoView("You'll see what I mean soon.", width / 2, height / 2.2);
+      fadeTextIntoView("\"She will serve as part of our new ad revenue.", width / 2, height / 2.4);
+      fadeTextIntoView("It doesn't matter who she is, just do it.", width / 2, height / 2.2);
       fadeTextIntoView("At any rate, be sure to submit your report before your shift ends.", width / 2, height / 2);
       fadeTextIntoView("Good luck.\"", width / 2, height / 1.8);
       fadeTextIntoView("-VigiLens Corp.", width / 2, height / 1.65);
@@ -91,13 +96,12 @@ function draw() {//these are all the pages that switch throughout
     case 7: //page7, this is where all the animation takes place, reference function draw animation page
       AnimationPage();
       break;//this means that the cases are done, do not touch
-    case 8:
-      AnimationPage();
-      //rect(width/2,height/2,100,100);
-      fill(255);
-      stroke(255);
-      text(score, 100, 100, 100, 100);
-      break;
+  
+  
+      
+
+     
+      
   }
 
   //customButton(width / 2, height * 0.8, 80, 40, 1);//this is the next button, idk how to get it to go away on pg 7
@@ -110,17 +114,76 @@ function AnimationPage() {
   // fill(255, 0, 0); 
   // rect(width / 2, height / 2, 300, 200); 
   // pop();//THIS IS THE ANIMATION BOX FOR SPRITE
+  background(0);
+  image(bgImage, width/2, height/2, 550, 550);
+  fill(255);
+  text(`Score: ${score}`, 100, 40);
+  text(`Time Left: ${timeLeft.toFixed(1)}s`, width - 150, 40);
+
+  image(granny, width/2, height/2, 150, 150);
+
+  if (timeLeft <= 0) {
+    endGame();
+  }
+}
+  
+ 
+function startTimer() {
+  timerInterval = setInterval(function () {
+    timeLeft -= .1;
+  }, 100);
+}
+function endGame() {
+  clearInterval(timerInterval);
+  if (score >= 70) {
+    fadeTextIntoView("\"You did your job a little too well. There was a ", width / 2, height / 2.4);
+      fadeTextIntoView("security breach in the system, everyone's passwords", width / 2, height / 2.2);
+      fadeTextIntoView("were stolen and Martha had her identity stolen, ", width / 2, height / 2.0);
+      fadeTextIntoView("borderline ruining her life. We won't be giving you", width / 2, height / 1.8);
+      fadeTextIntoView("the money, as we are being sued. Good day.", width / 2, height / 1.65);
+  } else if (score >= 50) {
+    fadeTextIntoView("\"You seem to have a knack for this.", width / 2, height / 2.4);
+      fadeTextIntoView("She is an excellent source of money. However, she", width / 2, height / 2.2);
+      fadeTextIntoView(" may be hacked in the near future, as a result of the security", width / 2, height / 2.0);
+      fadeTextIntoView("breach. Here is your money.", width / 2, height / 1.8);
+  } else if (score >= 20) {
+    fadeTextIntoView("\"Good, we acquired a decent amount of data from her.", width / 2, height / 2.4);
+      fadeTextIntoView("She will be spammed with ads on her favorite things.", width / 2, height / 2.2);
+      fadeTextIntoView("A decent source of revenue, I suppose", width / 2, height / 2.0);
+      fadeTextIntoView("Your money will be coming in two business days.", width / 2, height / 1.8);
+  } else if (score >= 10) {
+    fadeTextIntoView("\"I suppose it's fine.", width / 2, height / 2.4);
+      fadeTextIntoView("She will be susceptible to more spam calls, but that's all.", width / 2, height / 2.2);
+      fadeTextIntoView("Be very careful or you may be next.", width / 2, height / 2.0);
+      fadeTextIntoView("Here's your money, and I expect you to do better next time.", width / 2, height / 1.8);
+  } else {
+    fadeTextIntoView("\"Did you even TRY?", width / 2, height / 2.4);
+      fadeTextIntoView("As we speak, agents are taking your data in exchange", width / 2, height / 2.2);
+      fadeTextIntoView("Needless to say, you won't be getting paid", width / 2, height / 2.0);
+      fadeTextIntoView("Martha is unharmed, but you shall pay instead.", width / 2, height / 1.8);
+  }
+}
+function displayText(message) {
+  background(0);
+  fill(255);
+  textSize(24);
+  textAlign(CENTER, CENTER);
+  text(message, width / 2, height / 2);
+}
+
+
+function micGame() {
+  // push();
+  // fill(255, 0, 0); 
+  // rect(width / 2, height / 2, 300, 200); 
+  // pop();//THIS IS THE ANIMATION BOX FOR SPRITE
 
   image(bgImage, width/2, height/2, 550, 550);
 
-  // Draw myImageArray on top of the background
+//yeah idk why it doesnt work without this
   image(granny, width/2, height/2, 150, 150);
   
-  
-  customButton(width * 0.2, height * 0.1, 80, 40, 8); // top left-maybe camera?
-  customButton(width * 0.8, height * 0.1, 80, 40, 8); // top right-search bar
-  customButton(width * 0.2, height * 0.9, 80, 40, 8); // bottom left-mic
-  customButton(width * 0.8, height * 0.9, 80, 40, 8); // bottom right-access log
+
 }
 
 function customButton(x, y, width, height, nextPage) {
@@ -143,18 +206,53 @@ function customButton(x, y, width, height, nextPage) {
     mouseY < y + height / 2 &&
     mouseIsClicked
   ) {
-    // if (currentPage >= numberOfPages) {//uses next button to change pages
-    //   currentPage = 1;
-    // } else {
-    //   currentPage++;
-    //   alphaValue = 0; 
-    // }
+   
+    
     if (nextPage == 8) { score++ }
     currentPage = nextPage;
     alphaValue = 0;
   }
 }
+function customButtonTwo(x, y, width, height, nextPage) {
+  push();
+  fill('blue');
+  strokeWeight(2);
+  stroke('white');
+  rect(x, y, width, height);
+  noStroke();
+  fill(50, 205, 50);
+  textSize(14);
+  textStyle(BOLD);
+  text(buttonText, x, y);
+  pop();
 
+  if (
+    mouseX > x - width / 2 &&
+    mouseX < x + width / 2 &&
+    mouseY > y - height / 2 &&
+    mouseY < y + height / 2 &&
+    mouseIsClicked
+  ) {
+  
+    isRectangleVisible = true;
+    
+    //literally do not need this but it breaks it so 
+    nextPage = 9;
+  }
+
+
+  if (isRectangleVisible) {
+    fill(255);
+    rect(200, 200, 300, 200);
+
+  
+    currentPage = nextPage;
+  }
+}
+
+
+    
+  
 function drawPage(page) {//first two pages that dont include the transparency thing
   switch (page) {
     case 1:
@@ -182,8 +280,18 @@ function drawPage(page) {//first two pages that dont include the transparency th
 
 function mouseClicked() {//makes it so when you click everything activates
   mouseIsClicked = true;
+    // check if in granny bounds
+    if (
+      mouseX > width / 2 - granny.width / 4 &&
+      mouseX < width / 2 + granny.width / 4 &&
+      mouseY > height / 2 - granny.height / 4 &&
+      mouseY < height / 2 + granny.height / 4
+    ) {
+      // increase score
+      score++;
+    }
+  }
 
-}
 
 function fadeTextIntoView(txt, x, y) {//fading text 
   push();
@@ -196,11 +304,4 @@ function fadeTextIntoView(txt, x, y) {//fading text
     alphaValue += 1;
   }
 }
-//remove the next button
-//make it so that the animation of the grandma is moving around 
-//make it so the buttons are clickable
-//make it so stuff is 'typed in' the search bar
-//make it so that there is a log on the bottom screen
-//make it so that the text is clickable
-//give end result based on score at the end
-//text boxes
+
